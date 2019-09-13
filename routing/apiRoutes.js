@@ -1,4 +1,4 @@
-var friendsArray = require("../data/friend");
+var friendsArray = require("../app/data/friend");
 
 module.exports = function(app) {
   
