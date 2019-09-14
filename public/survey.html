@@ -180,12 +180,14 @@
                         </div>
                         <br>
                         <br>
-              <button type="submit" href="/survey" class="btn btn-primary submit">Submit</button>
+              <button type="submit" href="/survey" class="btn btn-primary submit" >Submit</button>
             </form>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- data-toggle="modal" data-target="#exampleModalCenter" -->
 
 
     <footer class="footer">
@@ -197,9 +199,29 @@
 
   </div>
 
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Best Match</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="matchName">
+                Test!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 </body>
 
 </html>
+
 
 <script type="text/javascript">
 
@@ -219,10 +241,14 @@
        var newFriend = {
         name: $("#name").val().trim(),
         photo: $("#photo").val().trim(),
-        scores: []
+        scores: [],
+        total: []
     };
      
+    
     newFriend.scores.push(q1,q2,q3,q4,q5,q6,q7,q8,q9,q10)
+    var total = q1+q2+q3+q4+q5+q6+q7+q8+q9+q10
+    newFriend.total.push(total)
     
     for (var score of newFriend.scores){
         if (score === "Select an Option"){
@@ -233,24 +259,24 @@
         }
     if (newFriend.photo ===""){
         alert("You must include a photo link!")
-        }
-
-
-      console.log(newFriend);
+    }else{
+     
   
       $.post("/api/friends", newFriend,
         function(data) {
             if (data) {
-                alert("Got it!")
-         }
-  
-          // If a table is available... tell user they on the waiting list.
-          else {
-            alert("Please fill out the form fully before submitting.");
+              console.log(newFriend)
+                $("#matchName").empty()
+              $("#matchName").text("Charlie")
+              $('.modal').modal();
+
+            }
+            else {
+            alert("Oh on, something went wrong, please try again!");
           }
 
-        $("#reserve-name").val("");
-        $("#reserve-phone").val("");
+        $("#name").val("");
+        $("#photo").val("");
         $("#q1").val("Select an Option");
         $("#q2").val("Select an Option");
         $("#q3").val("Select an Option");
@@ -262,7 +288,7 @@
         $("#q9").val("Select an Option");
         $("#q10").val("Select an Option"); 
         });
-  
+        }
     });
   
   </script>
